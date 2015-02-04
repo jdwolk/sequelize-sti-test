@@ -4,20 +4,16 @@ var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
+var Sequelize = require('sequelize');
+var _ = require('underscore');
+
+var settings = require('./config/config.json').development;
 
 var sequelize = new Sequelize(
-  'sequelize_sti_development',
-  'jordaniel',
-  '', {
-    host: 'localhost',
-    dialect: 'postgres',
-
-    pool: {
-      max: 5,
-      min: 0,
-      idle: 10000
-    },
-  }
+  settings.database,
+  settings.username,
+  settings.password,
+  _.omit(settings, 'database', 'username', 'password')
 );
 
 var models = require('./models');

@@ -1,18 +1,19 @@
 var express = require('express');
 var router = express.Router();
 
-var Transactor = require('./models').transactor;
-Transactor.sync({ force: true }).then(function() {
+var Transactor = require('../models').transactor;
+Transactor.sync().then(function() {
   // Table created
   return Transactor.create({
-    firstName: 'John',
-    lastName: 'Hancock'
+    firstName: 'John'
   });
 });
 
 /* GET transactors listing. */
 router.get('/', function(req, res, next) {
-  res.send('respond with a resource');
+  Transactor.all().then(function(stuff) {
+    res.send(stuff);
+  });
 });
 
 module.exports = router;
